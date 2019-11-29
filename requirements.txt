@@ -15,7 +15,6 @@ PyJWT==1.3.0
 pyserial==3.0.1
 python-dotenv==0.10.3
 PyYAML==3.11
-ufw==0.35
 urllib3==1.13.1
 virtualenv==15.0.1
 Werkzeug==0.16.0
