@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+            font-family: arial;
+        }
+        
+        .title {
+            color: grey;
+            font-size: 18px;
+        }
+        
+        button {
+            border: none;
+            outline: 0;
+            display: inline-block;
+            padding: 8px;
+            color: white;
+            background-color: #000;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+        }
+        
+        a {
+            text-decoration: none;
+            font-size: 22px;
+            color: black;
+        }
+        
+        button:hover,
+        a:hover {
+            opacity: 0.7;
+        }
+        
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <br>
+        <h1>{{title}}</h1>
+        <p class="title">Movie</p>
+        <table>
+            <tr>
+                <td>Title</td>
+                <td>{{judul}}</td>
+            </tr>
+            <tr>
+                <td>Actor</td>
+                <td>{{actor}}</td>
+            </tr>
+            <tr>
+                <td>Aspect Ratio</td>
+                <td>{{aspectRatio}}</td>
+            </tr>
+            <tr>
+                <td>Budget</td>
+                <td>{{budget}}</td>
+            </tr>
+            <tr>
+                <td>Duration</td>
+                <td>{{duration}}</td>
+            </tr>
+            <tr>
+                <td>Genre</td>
+                <td>{{genres}}</td>
+            </tr>
+            <tr>
+                <td>Gross</td>
+                <td>{{gross}}</td>
+            </tr>
+            <tr>
+                <td>IMDB Link</td>
+                <td>{{imdbLink}}</td>
+            </tr>
+            <tr>
+                <td>IMDB Score</td>
+                <td>{{imdbScore}}</td>
+            </tr>
+            <tr>
+                <td>Language</td>
+                <td>{{lang}}</td>
+            </tr>
+            <tr>
+                <td>Movie Origin</td>
+                <td>{{origin}}</td>
+            </tr>
+            <tr>
+                <td>Plot</td>
+                <td>{{plot}}</td>
+            </tr>
+            <tr>
+                <td>Rating</td>
+                <td>{{rating}}</td>
+            </tr>
+            <tr>
+                <td>Year</td>
+                <td>{{year}}</td>
+            </tr>
+            <tr>
+                <td>Voted By</td>
+                <td>{{votedBy}}</td>
+            </tr>
+        </table>
+        <br>
+    </div>
+</body>
+
+</html>
