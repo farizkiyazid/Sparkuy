@@ -43,13 +43,15 @@ def searchLocal(searchKey):
         if re.search(searchKey, str(o), re.IGNORECASE):
             counter+=1
             title = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasTitle'), None)
-            actor = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasActor'), None)
-            # out += "Movie Id : " + s + ";   Movie Actor : "  + actor + ";  Movie Title : " + title + "<br>"
-            # out += '<a>http://localhost:5000/detail?id="' + s + '"</a>'+ '<br>'
+            actors = [None] * 3
+            i = 0
+            for actor in g.objects(s,rdflib.term.URIRef(u'http://localhost:3333/hasActor')):
+                actors[i] = actor
+                i+=1
             out += '''
             <tr>
                 <td>'''+s+'''</td>
-                <td>'''+actor+'''</td>
+                <td>'''+actors[0]+''', '''+actors[1]+''', '''+actors[2]+'''</td>
                 <td>'''+title+'''</td>
                 <td>
                     <form action="/detail" method="post">
