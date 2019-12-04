@@ -17,6 +17,10 @@ def handle_data():
         '''+controller.style+'''
     </head>
     <body>
+        <ul>
+            <li><a class="active" href="/">Sparkuy</a></li>
+        </ul>
+        <br>
         ''' + controller.searchLocal(searchKey) + '''
     </body>
 </html>'''

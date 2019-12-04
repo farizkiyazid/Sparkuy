@@ -24,6 +24,30 @@ style = '''
         tr:nth-child(even) {
         background-color: #dddddd;
         }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: #111;
+        }
         </style>
         '''
 
@@ -39,6 +63,8 @@ def searchLocal(searchKey):
         </tr>
     '''
     for s,p,o in g:
+        # if re.search(str(s), out, re.IGNORECASE):
+        #     continue
         if re.search(searchKey, str(o), re.IGNORECASE):
             counter+=1
             title = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasTitle'), None)
@@ -47,6 +73,7 @@ def searchLocal(searchKey):
             for actor in g.objects(s,rdflib.term.URIRef(u'http://localhost:3333/hasActor')):
                 actors[i] = actor
                 i+=1
+            
             out += '''
             <tr>
                 <td>'''+s+'''</td>
@@ -68,6 +95,7 @@ def searchLocal(searchKey):
 
 def getAttrById(s):
     title = g.value(rdflib.term.URIRef(s), rdflib.term.URIRef(u'http://localhost:3333/hasTitle'), None)
+    director = g.value(rdflib.term.URIRef(s), rdflib.term.URIRef(u'http://localhost:3333/directedBy'), None)
     actors = [None] * 3
     i = 0
     for actor in g.objects(rdflib.term.URIRef(s),rdflib.term.URIRef(u'http://localhost:3333/hasActor')):
@@ -86,5 +114,5 @@ def getAttrById(s):
     rating = g.value(rdflib.term.URIRef(s), rdflib.term.URIRef(u'http://localhost:3333/hasRating'), None)
     year = g.value(rdflib.term.URIRef(s), rdflib.term.URIRef(u'http://localhost:3333/madeInYear'), None)
     votedBy = g.value(rdflib.term.URIRef(s), rdflib.term.URIRef(u'http://localhost:3333/votedBy'), None)
-    return render_template('details.html', title='Details', judul=title, actor=actors, aspectRatio=aspectRatio, budget=budget, duration=duration, genres=genres, gross=gross, imdbLink=imdbLink, imdbScore=imdbScore, lang=lang, origin=origin, plot=plot, rating=rating, year=year, votedBy=votedBy)
+    return render_template('details.html', title='Details', director=director, judul=title, actor=actors, aspectRatio=aspectRatio, budget=budget, duration=duration, genres=genres, gross=gross, imdbLink=imdbLink, imdbScore=imdbScore, lang=lang, origin=origin, plot=plot, rating=rating, year=year, votedBy=votedBy)
 

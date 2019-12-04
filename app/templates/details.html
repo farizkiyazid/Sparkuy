@@ -57,11 +57,38 @@
         tr:nth-child(even) {
             background-color: #dddddd;
         }
+        
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+        
+        li {
+            float: left;
+        }
+        
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        
+        li a:hover {
+            background-color: #111;
+        }
     </style>
 </head>
 
 <body>
-
+    <ul>
+        <li><a class="active" href="/">Sparkuy</a></li>
+    </ul>
+    <br>
     <div class="card">
         <br>
         <h1>{{title}}</h1>
@@ -70,6 +97,10 @@
             <tr>
                 <td>Title</td>
                 <td>{{judul}}</td>
+            </tr>
+            <tr>
+                <td>Director</td>
+                <td>{{director}}</td>
             </tr>
             <tr>
                 <td>Actor</td>
