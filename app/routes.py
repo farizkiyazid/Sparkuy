@@ -1,6 +1,8 @@
 from app import app
 from flask import render_template, request
 import rdflib
+import re
+from urllib.parse import quote
 
 g=rdflib.Graph()
 g.parse('Movie-RDF.ttl', format="ttl")
@@ -20,7 +22,7 @@ def handle_data():
     out = ""
 
     for s,p,o in g:
-        if searchKey in str(o):
+        if re.search(searchKey, str(o), re.IGNORECASE):
             counter+=1
             title = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasTitle'), None)
             actor = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasActor'), None)
@@ -38,8 +40,9 @@ def handle_data():
             year = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/madeInYear'), None)
             votedBy = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/votedBy'), None)
 
-            out += "Movie Id : " + s + "; Movie Actor : "  + actor + "; Movie Title : " + title + "<br>"
+            # out += "Movie Id : " + s + "; Movie Actor : "  + actor + "; Movie Title : " + title + "<br>"
+            print(quote("Movie Id : " + s + "; Movie Actor : "  + actor + "; Movie Title : " + title))
         if counter >= limit:
             break
 
-    return out
+    return "test"
