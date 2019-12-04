@@ -2,6 +2,9 @@ from app import app
 from flask import render_template, request
 import rdflib
 
+g=rdflib.Graph()
+g.parse('Movie-RDF.ttl', format="ttl")
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -12,8 +15,6 @@ def index():
 def handle_data():
     searchKey = request.form['searchKey']
 
-    g=rdflib.Graph()
-    g.parse('Movie-RDF.ttl', format="ttl")
     limit = 25
     counter = 0
     out = ""
@@ -21,7 +22,23 @@ def handle_data():
     for s,p,o in g:
         if searchKey in str(o):
             counter+=1
-            out += "Movie Id : " + s + "; Movie Actor : "  + o + "; Movie Title : " + g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasTitle'), None) + "<br>"
+            title = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasTitle'), None)
+            actor = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasActor'), None)
+            aspectRatio = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasAspectRatio'), None)
+            budget = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasBudget'), None)
+            duration = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasDuration'), None)
+            genres = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasGenres'), None)
+            gross = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasGross'), None)
+            imdbLink = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasIMDBLink'), None)
+            imdbScore = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasIMDBScore'), None)
+            lang = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasLanguage'), None)
+            origin = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasOrigin'), None)
+            plot = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasPlot'), None)
+            Rating = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasRating'), None)
+            year = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/madeInYear'), None)
+            votedBy = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/votedBy'), None)
+
+            out += "Movie Id : " + s + "; Movie Actor : "  + actor + "; Movie Title : " + title + "<br>"
         if counter >= limit:
             break
 
