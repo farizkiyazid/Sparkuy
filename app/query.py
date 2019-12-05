@@ -1,4 +1,5 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
+import json
 
 
 def queryMovie(namaFilm):
@@ -15,22 +16,20 @@ def queryMovie(namaFilm):
             ?movie dbo:thumbnail ?thumbnail .
             ?movie rdfs:comment ?comment
             
-            FILTER contains(?movieTitle,"Furious 7") .
+            FILTER contains(?movieTitle, "%s") .
             FILTER (lang(?comment) = 'en') .
             OPTIONAL {?movie rdfs:label ?movieTitle . 
             FILTER (lang(?movieTitle) = 'en') . 
             }
         }
-        """)
+        """ % namaFilm)
     sparql.setReturnFormat(JSON)
     results = sparql.query().convert()
 
-    # for result in results["results"]["bindings"]:
-    #     print(result["label"]["value"])
+    for result in results["results"]["bindings"]:
+        thumbnail, comment = (
+            result["thumbnail"]["value"], result["comment"]["value"])
 
-    return(results)
-
-
-queryMovie("Furious 7")
-# for result in results["results"]["bindings"]:
-#     print(result["label"]["value"])
+    print(thumbnail)
+    print(comment)
+    return(thumbnail, comment)
