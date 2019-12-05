@@ -1,9 +1,13 @@
 from app import app
+from SPARQLWrapper import SPARQLWrapper, JSON
+import json
 import rdflib
 import re
 from flask import render_template
-
+# from query import queryMovie 
 # variables
+
+
 limit = 25
 g=rdflib.Graph()
 g.parse('Movie-RDF.ttl', format="ttl")
@@ -116,3 +120,39 @@ def getAttrById(s):
     votedBy = g.value(rdflib.term.URIRef(s), rdflib.term.URIRef(u'http://localhost:3333/votedBy'), None)
     return render_template('details.html', title='Details', director=director, judul=title, actor=actors, aspectRatio=aspectRatio, budget=budget, duration=duration, genres=genres, gross=gross, imdbLink=imdbLink, imdbScore=imdbScore, lang=lang, origin=origin, plot=plot, rating=rating, year=year, votedBy=votedBy)
 
+
+
+def queryMovie(searchKey):
+    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+    sparql.setQuery("""
+        PREFIX dbo: <http://dbpedia.org/ontology/>
+        PREFIX res: <http://dbpedia.org/resource/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        SELECT ?movie ?movieTitle ?thumbnail ?comment
+        WHERE {
+            ?movie rdf:type dbo:Film .
+            ?movie foaf:name ?movieTitle .
+            ?movie dbo:thumbnail ?thumbnail .
+            ?movie rdfs:comment ?comment
+            
+            FILTER contains(?movieTitle, "%s") .
+            FILTER (lang(?comment) = 'en') .
+            OPTIONAL {?movie rdfs:label ?movieTitle . 
+            FILTER (lang(?movieTitle) = 'en') . 
+            }
+        }
+        """ % searchKey)
+    sparql.setReturnFormat(JSON)
+    results = sparql.query().convert()
+    thumbnail = ""
+    comment = ""
+    for result in results["results"]["bindings"]:
+        # thumbnail =  ' '.join(result["thumbnail"]["value"])
+        # comment   =  ' '.join(result["comment"]["value"])
+        print(thumbnail)
+        print("LALALALALALALALALALALALALALALALA")
+        print(comment)
+
+    
+    return(thumbnail, comment)

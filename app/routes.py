@@ -22,6 +22,7 @@ def handle_data():
         </ul>
         <br>
         ''' + controller.searchLocal(searchKey) + '''
+        ''' + controller.queryMovie(searchKey) + '''
     </body>
 </html>'''
     return out

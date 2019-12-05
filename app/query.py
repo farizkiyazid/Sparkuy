@@ -31,5 +31,6 @@ def queryMovie(namaFilm):
             result["thumbnail"]["value"], result["comment"]["value"])
 
     print(thumbnail)
+    print("LALALALALALALALALALALALALALALALA")
     print(comment)
     return(thumbnail, comment)
