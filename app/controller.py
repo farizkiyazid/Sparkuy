@@ -1,4 +1,4 @@
-from app import app
+from app import app, query
 import rdflib
 import re
 from flask import render_template
@@ -53,6 +53,7 @@ style = '''
 
 def searchLocal(searchKey):
     counter = 0
+    flag = None
     out = '''
     <table>
         <tr>
@@ -65,7 +66,7 @@ def searchLocal(searchKey):
     for s,p,o in g:
         # if re.search(str(s), out, re.IGNORECASE):
         #     continue
-        if re.search(searchKey, str(o), re.IGNORECASE):
+        if str(s) not in out and re.search(searchKey, str(o), re.IGNORECASE):
             counter+=1
             title = g.value(s, rdflib.term.URIRef(u'http://localhost:3333/hasTitle'), None)
             actors = [None] * 3
@@ -87,6 +88,7 @@ def searchLocal(searchKey):
                 
             </tr>
             '''
+        flag = str(s)
         if counter >= limit:
             break
 
@@ -94,6 +96,7 @@ def searchLocal(searchKey):
     return out
 
 def getAttrById(s):
+    # get attributes from local
     title = g.value(rdflib.term.URIRef(s), rdflib.term.URIRef(u'http://localhost:3333/hasTitle'), None)
     director = g.value(rdflib.term.URIRef(s), rdflib.term.URIRef(u'http://localhost:3333/directedBy'), None)
     actors = [None] * 3
@@ -114,5 +117,8 @@ def getAttrById(s):
     rating = g.value(rdflib.term.URIRef(s), rdflib.term.URIRef(u'http://localhost:3333/hasRating'), None)
     year = g.value(rdflib.term.URIRef(s), rdflib.term.URIRef(u'http://localhost:3333/madeInYear'), None)
     votedBy = g.value(rdflib.term.URIRef(s), rdflib.term.URIRef(u'http://localhost:3333/votedBy'), None)
-    return render_template('details.html', title='Details', director=director, judul=title, actor=actors, aspectRatio=aspectRatio, budget=budget, duration=duration, genres=genres, gross=gross, imdbLink=imdbLink, imdbScore=imdbScore, lang=lang, origin=origin, plot=plot, rating=rating, year=year, votedBy=votedBy)
+
+    # get attributes from dbpedia
+    thumbnail, comment = query.queryMovie(str(title)[0:-1])
+    return render_template('details.html', title='Details', thumbnail=thumbnail, director=director, judul=title, actor=actors, comment=comment, aspectRatio=aspectRatio, budget=budget, duration=duration, genres=genres, gross=gross, imdbLink=imdbLink, imdbScore=imdbScore, lang=lang, origin=origin, plot=plot, rating=rating, year=year, votedBy=votedBy)
 

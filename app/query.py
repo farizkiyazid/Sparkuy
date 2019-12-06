@@ -1,9 +1,13 @@
+from app import app
 from SPARQLWrapper import SPARQLWrapper, JSON
 import json
 
+# init variable
+sparql = SPARQLWrapper("http://dbpedia.org/sparql")
 
 def queryMovie(namaFilm):
-    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+    thumbnail=""
+    comment=""
     sparql.setQuery("""
         PREFIX dbo: <http://dbpedia.org/ontology/>
         PREFIX res: <http://dbpedia.org/resource/>
@@ -30,6 +34,6 @@ def queryMovie(namaFilm):
         thumbnail, comment = (
             result["thumbnail"]["value"], result["comment"]["value"])
 
-    print(thumbnail)
-    print(comment)
+    # print(thumbnail)
+    # print(comment)
     return(thumbnail, comment)

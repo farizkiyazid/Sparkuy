@@ -4,8 +4,7 @@ from flask import render_template, request
 @app.route('/')
 @app.route('/index')
 def index():
-    user = {'username': 'Kiki'}
-    return render_template('index.html', title='Home', user=user)
+    return render_template('index.html', title='Home')
 
 @app.route('/search', methods=['POST'])
 def handle_data():
